@@ -6,16 +6,17 @@ import {
   uniqueIndex,
 } from "drizzle-orm/pg-core";
 
-export const usersTable = pgTable(
+export const users = pgTable(
   "users",
   {
     id: uuid("id").primaryKey().defaultRandom(),
     clerkId: text("clerk_id").unique().notNull(),
     name: text("name").notNull(),
-    // TODO: add banner fields
-    imageUrl: text("image_url").notNull(),
-    createAt: timestamp("created_at").defaultNow().notNull(),
-    updateAt: timestamp("updated_at").defaultNow().notNull(),
+    imageUrl: text("image_url")
+      .notNull()
+      .default("https://example.com/default-avatar.png"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },
   (t) => [uniqueIndex("clerk_id_idx").on(t.clerkId)]
 );
